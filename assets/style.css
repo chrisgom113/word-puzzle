@@ -1,6 +1,6 @@
 html * {
     box-sizing: border-box;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 
 }
 
@@ -13,6 +13,22 @@ body {
     background-color: lightblue;
 }
 
+header {
+    border: 10px solid black;
+    padding: 1rem;
+
+}
+
+header h1 {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+header button {
+    font-size: 2rem;
+    padding: .5rem;
+}
+
 
 main {
     display: flex;
@@ -20,11 +36,20 @@ main {
 }
 
 main section {
-    flex: 1 1 100%
+    flex: 1 1 100%;
+    border: 10px solid black;
+    border-top: 0;
+    padding: 1rem;
+    border-right: 0;
+
 }
 
 main aside {
-    flex: 1 1 100%
+    flex: 1 1 100%;
+    border: 10px solid black;
+    border-top: 0;
+    padding: 1rem;
+    font-size: 1.25rem;
 }
 
 
@@ -39,9 +64,19 @@ main aside {
     justify-content: center;
 }
 
+#timer-container {
+    background-color: darkblue;
+    color: white;
+    padding: 1rem;
+    border: 10px solid black;
+    margin: 0;
+}
 
 
 
+#word {
+    font-size: 2rem;
+}
 
 #score-container {
     display: flex;
@@ -56,9 +91,6 @@ main aside {
 
 
 @media screen and (min-width: 1180px){
-    html * {
-        border-color: blue;
-    }
 
     main {
         flex-direction: row;
