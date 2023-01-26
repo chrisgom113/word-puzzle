@@ -90,11 +90,13 @@ function startTimer() {
 
 function loseGame() {
     losses++;
+    wordEl.textContent = "You lost!";
    endGame();
 }
 
 function winGame() {
     wins++;
+    wordEl.textContent = "You win!";
     endGame(); 
 
 }
@@ -104,6 +106,22 @@ function endGame() {
     gameStarted = false;
     startBtn.disabled = false;
     renderScores();
+    saveScores();
+}
+
+
+function saveScores() {
+    localStorage.setItem('wins', wins);
+    localStorage.setItem('losses', losses);
+}
+
+function loadScores() {
+   var winsValue = Number.parseInt(localStorage.getItem('wins'), 10);
+   var lossesValue = Number.parseInt(localStorage.getItem('losses'), 10);
+
+    wins = !isNaN(winsValue) ? winsValue : 0
+    losses = !isNaN(lossesValue) ? lossesValue : 0
+
 }
 
 function renderScores() {
@@ -114,6 +132,7 @@ function renderScores() {
 function resetScores() {
     wins = 0;
     losses = 0;
+    saveScores();
     renderScores();
 }
 
@@ -134,7 +153,8 @@ function guessLetter(event) {
 function init() {
     console.log('initializing...');
     renderTimer(timerDefault);
-    renderScores()
+    loadScores();
+    renderScores();
 }
 
 // event listeners
