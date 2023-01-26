@@ -8,35 +8,81 @@ var resetBtn = document.querySelector('#reset');
 var wordEl = document.querySelector('#word');
 
 
+// game settings
+var timerDefault = 10;
+var wordOptions = ['boolean', 'array', 'function', 'variable', 'browser', 'html', 'css'];
+
 // game state
-var timerDefault = 2;
+var gameStarted = false;
 var timer = 0;
 var wins = 0;
 var losses = 0;
-
-
+var word = null;
+var selectedKeys = [];
+var countdownTimer;
 
 // functions
 function startGame() {
-    console.log('starting game...')
+    gameStarted = true;
     startBtn.disabled = true;
     timer = timerDefault;
+    selectedKeys = [];
+
+    chooseWord();
     renderTimer();
     startTimer();
 }
 
+function chooseWord() {
+    word = wordOptions[Math.floor(Math.random() * wordOptions.length)];
 
-function renderTimer (value) {
+    renderWord();
+}
+
+function renderWord() {
+    var wordDisplay = [];
+
+    for (let i = 0; i < word.length; i++) {
+        const letter = word[i].toLowerCase();
+
+        if (selectedKeys.includes(letter)) {
+            wordDisplay.push(letter)
+        } else {
+            wordDisplay.push('_');
+        }
+    }
+
+    wordEl.textContent = wordDisplay.join(' ');
+    checkWin();
+}
+
+function checkWin() {
+    var wonGame = true;
+
+    for (let i = 0; i < word.length; i++){
+        const letter = word [i].toLowerCase();
+
+        if(!selectedKeys.includes(letter)) {
+            wonGame = false
+            break;
+        }
+    }
+
+    if(wonGame) {
+        winGame();
+    }
+}
+
+function renderTimer(value) {
     timerEl.textContent = value ? value : timer;
 }
 
 
 function startTimer() {
-    var countdownTimer = setInterval(function() {
+    countdownTimer = setInterval(function () {
         timer--;
         renderTimer();
-        if(timer === 0) {
-            clearInterval(countdownTimer);
+        if (timer === 0) {
             loseGame();
         }
     }, 1000);
@@ -44,6 +90,19 @@ function startTimer() {
 
 function loseGame() {
     losses++;
+   endGame();
+}
+
+function winGame() {
+    wins++;
+    endGame(); 
+
+}
+
+function endGame() {
+    clearInterval(countdownTimer);
+    gameStarted = false;
+    startBtn.disabled = false;
     renderScores();
 }
 
@@ -58,6 +117,20 @@ function resetScores() {
     renderScores();
 }
 
+
+function guessLetter(event) {
+    if (gameStarted) {
+        var selectedKey = event.key.toLowerCase();
+
+        if (!selectedKeys.includes(selectedKey)) {
+            selectedKeys.push(selectedKey);
+        }
+
+        renderWord();
+    }
+
+}
+
 function init() {
     console.log('initializing...');
     renderTimer(timerDefault);
@@ -67,5 +140,6 @@ function init() {
 // event listeners
 startBtn.addEventListener("click", startGame);
 resetBtn.addEventListener("click", resetScores);
+document.addEventListener('keydown', guessLetter);
 
 init();
