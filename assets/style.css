@@ -40,7 +40,7 @@ main section {
     border: 10px solid black;
     border-top: 0;
     padding: 1rem;
-    border-right: 0;
+    
 
 }
 
@@ -97,7 +97,8 @@ main aside {
     }
 
     main section {
-        flex: 1 1 60%
+        flex: 1 1 60%;
+        border-right: 0;
     }
     
     main aside {
